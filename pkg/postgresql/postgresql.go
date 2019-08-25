@@ -9,12 +9,12 @@ import (
 func New(con string) (*sql.DB, error) {
 	db, err := sql.Open("postgres", con)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err.Error())
 		return nil, err
 	}
 
 	if err := db.Ping(); err != nil {
-		log.Fatal(err.Error())
+		log.Fatalf("psql new: %v", err.Error())
 		log.Println("db down")
 		return nil, err
 	}
