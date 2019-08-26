@@ -26,3 +26,4 @@ go run cmd/simplego/main.go \
   - repository
   - service if necessary
 - Graceful shutdown
+- validation
