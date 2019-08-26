@@ -14,25 +14,22 @@ import (
 // RegisterRouter list of route
 func RegisterRouter(db *sql.DB) *mux.Router {
 	r := mux.NewRouter()
-
+	r.Use(loggingMiddleware)
+	r.Use(mux.CORSMethodMiddleware(r))
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "safe")
 		return
 	})
 
-	r.Use(loggingMiddleware)
-	r.Use(mux.CORSMethodMiddleware(r))
-
 	apiRoute := r.PathPrefix("/api").Subrouter()
+	amw := authenticationMiddleware{}
+	amw.Populate()
+	apiRoute.Use(amw.Middleware)
 	apiRoute.Handle("/user", users.FindAllHandler(db)).Methods("GET")
 	apiRoute.Handle("/user", users.InsertHandler(db)).Methods("POST")
 	apiRoute.Handle("/user/{id}", users.FindByIDHandler(db)).Methods("GET")
 	apiRoute.Handle("/user/{id}", users.UpdateHandler(db)).Methods("PUT")
 	apiRoute.Handle("/user/{id}", users.DeleteHandler(db)).Methods("DELETE")
-
-	amw := authenticationMiddleware{}
-	amw.Populate()
-	apiRoute.Use(amw.Middleware)
 
 	return r
 }
@@ -41,6 +38,7 @@ func RegisterRouter(db *sql.DB) *mux.Router {
 func RegisterDB(con string) (*sql.DB, error) {
 	db, err := postgresql.New(con)
 	if err != nil {
+		log.Fatal(err.Error())
 		return nil, err
 	}
 
