@@ -22,9 +22,11 @@ func RegisterRouter(db *sql.DB) *mux.Router {
 	})
 
 	apiRoute := r.PathPrefix("/api").Subrouter()
+
 	amw := authenticationMiddleware{}
 	amw.Populate()
 	apiRoute.Use(amw.Middleware)
+
 	apiRoute.Handle("/user", users.FindAllHandler(db)).Methods("GET")
 	apiRoute.Handle("/user", users.InsertHandler(db)).Methods("POST")
 	apiRoute.Handle("/user/{id}", users.FindByIDHandler(db)).Methods("GET")

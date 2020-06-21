@@ -2,23 +2,32 @@
 
 ## Run
 ```bash
+# shell 1
+docker run --name db --rm \
+  -e POSTGRES_PASSWORD=sandbox \
+  -e POSTGRES_USER=sandbox \
+  -e POSTGRES_DB=sandbox \
+  -p 6543:5432 \
+  postgres:13-alpine
+
+# shell 2
 make
 ```
 
 ## TODO:
 - backing service
-  - postgresql
-  - redis
-  - socket.io
-  - rpc
+  - [x] postgresql
+  - [ ] redis
+  - [ ] nats
+  - [ ] rpc
 - abstract main to app package
-  - registerConfig()
-  - registerRoute()
-  - registerDB()
+  - [x] registerConfig()
+  - [x] registerRoute()
+  - [x] registerDB()
 - Midleware
-  - JWT Auth
-  - CORS
-  - Midleware for specific route
+  - [x] CORS
+  - [ ] JWT Auth
+  - [ ] Midleware for specific route
 - split domain to 
   - handler
   - repository

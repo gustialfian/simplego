@@ -13,10 +13,11 @@ func main() {
 	cfg := config.New()
 
 	db, err := app.RegisterDB(cfg.ConnectionDB)
-	defer db.Close()
 	if err != nil {
 		return
 	}
+	defer db.Close()
+
 	r := app.RegisterRouter(db)
 
 	log.Printf("listen at port %v\n", cfg.Port)
