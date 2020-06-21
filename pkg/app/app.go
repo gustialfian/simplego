@@ -17,7 +17,7 @@ func RegisterRouter(db *sql.DB) *mux.Router {
 	r.Use(loggingMiddleware)
 	r.Use(mux.CORSMethodMiddleware(r))
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "safe")
+		fmt.Fprintf(w, "safe\n")
 		return
 	})
 

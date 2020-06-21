@@ -1,4 +1,4 @@
 run:
 	go run cmd/simplego/main.go \
-  		--db "user=postgres password=mysecretpassword host=localhost port=8080 dbname=sandbox sslmode=disable" \
+  		--db "host=localhost port=6543 dbname=sandbox user=sandbox password=sandbox sslmode=disable" \
   		--port 8000
